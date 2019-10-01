@@ -15,16 +15,14 @@ const BAHT_TEXT_POINT = 'จุด';
  * @param bool $display_zero
  * @return string|null
  */
-function baht_text($number, $include_unit = true, $display_zero = true)
+function baht_text ($number, $include_unit = true, $display_zero = true)
 {
-    if(!is_numeric($number))
-    {
+    if (!is_numeric($number)) {
         return null;
     }
 
     $log = floor(log($number, 10));
-    if($log > 5)
-    {
+    if ($log > 5) {
         $millions = floor($log / 6);
         $million_value = pow(1000000, $millions);
         $normalised_million = floor($number / $million_value);
@@ -41,38 +39,26 @@ function baht_text($number, $include_unit = true, $display_zero = true)
     $text = '';
     $unit = 0;
 
-    if($display_zero && $number_str == '0')
-    {
+    if ($display_zero && $number_str == '0') {
         $text = BAHT_TEXT_NUMBERS[0];
-    }
-    else for($i = strlen($number_str) - 1; $i > -1; $i--)
-    {
+    } else for ($i = strlen($number_str) - 1; $i > -1; $i--) {
         $current_number = (int)$number_str[$i];
 
         $unit_text = '';
-        if($unit == 0 && $i > 0)
-        {
+        if ($unit == 0 && $i > 0) {
             $previous_number = isset($number_str[$i - 1]) ? (int)$number_str[$i - 1] : 0;
-            if($current_number == 1 && $previous_number > 0)
-            {
+            if ($current_number == 1 && $previous_number > 0) {
                 $unit_text .= BAHT_TEXT_ONE_IN_TENTH;
-            }
-            else if($current_number > 0)
-            {
+            } else if ($current_number > 0) {
                 $unit_text .= BAHT_TEXT_NUMBERS[$current_number];
             }
-        }
-        else if($unit == 1 && $current_number == 2)
-        {
+        } else if ($unit == 1 && $current_number == 2) {
             $unit_text .= BAHT_TEXT_TWENTY;
-        }
-        else if($current_number > 0 && ($unit != 1 || $current_number != 1))
-        {
+        } else if ($current_number > 0 && ($unit != 1 || $current_number != 1)) {
             $unit_text .= BAHT_TEXT_NUMBERS[$current_number];
         }
 
-        if($current_number > 0)
-        {
+        if ($current_number > 0) {
             $unit_text .= BAHT_TEXT_UNITS[$unit];
         }
 
@@ -80,29 +66,19 @@ function baht_text($number, $include_unit = true, $display_zero = true)
         $unit++;
     }
 
-    if($include_unit)
-    {
+    if ($include_unit) {
         $text .= BAHT_TEXT_BAHT;
 
         $satang = explode('.', number_format($number, 2, '.', ''))[1];
-        if($satang == 0)
-        {
-            $text .= BAHT_TEXT_INTEGER;
-        }
-        else
-        {
-            $text .= baht_text($satang, false) . BAHT_TEXT_SATANG;
-        }
-    }
-    else
-    {
+        $text .= $satang == 0
+            ? BATH_TEXT_INTEGER
+            : baht_text($satang, false) . BAHT_TEXT_SATANG;
+    } else {
         $exploded = explode('.', $number);
-        if(isset($exploded[1]))
-        {
+        if(isset($exploded[1])) {
             $text .= BAHT_TEXT_POINT;
             $decimal = (string)$exploded[1];
-            for($i = 0; $i < strlen($decimal); $i++)
-            {
+            for($i = 0; $i < strlen($decimal); $i++) {
                 $text .= BAHT_TEXT_NUMBERS[$decimal[$i]];
             }
         }
