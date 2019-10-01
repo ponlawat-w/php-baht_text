@@ -28,8 +28,7 @@ function baht_text ($number, $include_unit = true, $display_zero = true)
         $normalised_million = floor($number / $million_value);
         $rest = $number - ($normalised_million * $million_value);
         $millions_text = '';
-        for($i = 0; $i < $millions; $i++)
-        {
+        for ($i = 0; $i < $millions; $i++) {
             $millions_text .= BAHT_TEXT_UNITS[6];
         }
         return baht_text($normalised_million, false) . $millions_text . baht_text($rest, true, false);
@@ -75,10 +74,10 @@ function baht_text ($number, $include_unit = true, $display_zero = true)
             : baht_text($satang, false) . BAHT_TEXT_SATANG;
     } else {
         $exploded = explode('.', $number);
-        if(isset($exploded[1])) {
+        if (isset($exploded[1])) {
             $text .= BAHT_TEXT_POINT;
             $decimal = (string)$exploded[1];
-            for($i = 0; $i < strlen($decimal); $i++) {
+            for ($i = 0; $i < strlen($decimal); $i++) {
                 $text .= BAHT_TEXT_NUMBERS[$decimal[$i]];
             }
         }
