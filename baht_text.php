@@ -70,7 +70,7 @@ function baht_text ($number, $include_unit = true, $display_zero = true)
 
         $satang = explode('.', number_format($number, 2, '.', ''))[1];
         $text .= $satang == 0
-            ? BATH_TEXT_INTEGER
+            ? BAHT_TEXT_INTEGER
             : baht_text($satang, false) . BAHT_TEXT_SATANG;
     } else {
         $exploded = explode('.', $number);
